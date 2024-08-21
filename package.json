@@ -10,7 +10,12 @@
   "files": [
     "dist"
   ],
-  "keywords": [],
+  "keywords": [
+    "mailscripter",
+    "email",
+    "mail",
+    "send"
+  ],
   "author": "Bikram Sahoo",
   "license": "ISC",
   "dependencies": {
