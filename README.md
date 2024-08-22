@@ -1,6 +1,9 @@
-# mailscripter
+# MailScripter
 
-`mailscripter` is a powerful and easy-to-use Node.js module designed to handle and automate email-related tasks in your applications. With `mailscripter`, you can easily send emails.
+
+## Features
+
+`mailscripter` is a powerful and easy-to-use Node.js module designed to handle and automate email-related tasks in your applications. With `mailscripter`, you can easily send emails both Synchronously and Asynchronously.
 
 ## Installation
 
@@ -23,6 +26,7 @@ import {mailScripter} from 'mailscripter';
 const {mailScripter} = require('mailscripter');
 ```
 
+
 ### Get script-string
 
 To get your-script-string,
@@ -30,29 +34,22 @@ To get your-script-string,
 
 then create a New Project,
 and name the project.
-
-click on gear icon and copy script id,
-
-then click on + icon on libraries,
-and configure library by pasting the script id and click on lookup.
-and name the library.
-
-then paste the code given below and click run button.
+then paste the code given below and click save button.
 
 ```js
 
 function doGet(e){
-  return ContentService.createTextOutput("Invalid Request Method GET.");
+  return ContentService.createTextOutput("Get Method Not Allowed!");
 }
+
 function doPost(e) {
   try {
-    var formData = e.parameter; // Get form data from the POST request
+    var formData = e.parameter;
     
     var recipient = formData.recipient;
     var subject = formData.subject;
-    var body = formData.body;
-    MailApp.sendEmail(recipient, subject, body);
-
+    var htmlBody = formData.body;
+    MailApp.sendEmail(recipient,subject,"",{htmlBody:htmlBody});
     return ContentService.createTextOutput(JSON.stringify({status:"success",message:"Email sent successfully."}))
                          .setMimeType(ContentService.MimeType.JSON);
   } catch (error) {
@@ -67,17 +64,20 @@ then deploy with New Dployment.
 
 Configure deployment by,
 
-1. giving Description,
-2. execute as me(your-email),
-3. who has access as Anyone ,
+1. press the gear icon and chose Web app.
+2. give New Description,
+3. Chose Execute as Me(your-email),
+4. Chose Who has access as Anyone 
 
-then deploy and authorize your gmail to send mail permision.
+then Click on deploy and Authorize access your gmail to send mail permision.
+then chose your Gmail Account, Click on Advanced option and click on `Go to your project name (unsafe)`,
+then click on Allow button.
 
-copy the Web App URL and store securly (eg:In .env file).
+copy the Web app `URL` and store securly in .env file.
 
 
 
-## Create new instance.
+## Create a new instance.
 
 ```javascript
 const mailer = new mailScripter('your-script-string');//"https://script.google.com/xxxxxxxxxxxxxxx";
@@ -88,7 +88,7 @@ const mailer = new mailScripter('your-script-string');//"https://script.google.c
 
 ## Sending an Email
 
-To send an email, use the "sendMail" method. This method requires two parameters:
+To send an email, use the "sendMail()" method. This method requires two parameters:
 
 emailObject: An object containing the following properties:
 {
@@ -112,9 +112,9 @@ mailer.sendMail(emailDetails, (response) => {
 ```
 
 
-## Sending an Email with a Promise
+## Sending an Email with Promise
 
-Alternatively, you can send an email using the "sendMailInPromise" method, which returns a promise. It takes one parameter, an emailObject : An object containing the following properties:
+Alternatively, you can send an email using the "sendMailInPromise()" method, which returns a promise. It takes one parameter, an emailObject : An object containing the following properties:
 
 {
  email: The recipient's email address,
@@ -142,5 +142,5 @@ mailer.sendMailInPromise(emailDetails)
 
 ## Contact 
 
-For any question or concerns, Please contact the maintainer:
--[Bikram Sahoo](<a href="mailto:bikramsahoo@live.in">bikramsahoo@live.in</a>). 
+For any question or concerns, Please contact the maintainer: 
+-[Bikram Sahoo](mailto:bikramsahoo@live.in)
