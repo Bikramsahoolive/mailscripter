@@ -23,7 +23,7 @@ export class mailScripter {
         data.append('isHTML', 'true');
           axios.post(this.script, data)
             .then((response:any) => {
-                // console.log('Response:', response.data);
+            
                 mailResponse(response.data);
                 
                 
@@ -38,7 +38,7 @@ export class mailScripter {
 
 
 
-        public sendMailInPromise(mailObj:mailobj){
+        public sendMailAsync(mailObj:mailobj){
     return new Promise((resolve,reject)=>{
         
         const data = new URLSearchParams();
@@ -48,12 +48,14 @@ export class mailScripter {
         data.append('isHTML', 'true');
           axios.post(this.script, data)
             .then(response => {
-                // console.log('Response:', response.data);
+                if(response.data.status === 'success'){
                 resolve(response.data);
+                }else{
+                    reject(response.data);
+                }
                 
             })
             .catch(error => {
-                // console.error('Error:', error.message);
                 reject(error);
                 
             });

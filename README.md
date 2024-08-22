@@ -86,24 +86,28 @@ const mailer = new mailScripter('your-script-string');//"https://script.google.c
 
 
 
-## Sending an Email
+## Sending an Email with callback
 
 To send an email, use the "sendMail()" method. This method requires two parameters:
 
-emailObject: An object containing the following properties:
-{
-email: The recipient's email address.
-subject: The subject of the email.
-content: The content of the email.
-}
+emailDetails: An object containing the following properties:
 
-callback function: A function that receives one parameter, which returns the response of the mail send status.
+```bash
+{
+email: "The recipient's email address",
+subject: "The subject of the email",
+content: "The content of the email"
+}
+```
+
+
+callback function(Optional): A function that receives one parameter, which returns the response of the mail send status.
 
 ```javascript
   const emailDetails = {
   email: 'recipient@example.com',
   subject: 'Hello from mailscript',
-  content: 'This is a test email using mailscript.'
+  content: 'This is a test email using mailscript Text/ HTML'
 };
 
 mailer.sendMail(emailDetails, (response) => {
@@ -114,23 +118,27 @@ mailer.sendMail(emailDetails, (response) => {
 
 ## Sending an Email with Promise
 
-Alternatively, you can send an email using the "sendMailInPromise()" method, which returns a promise. It takes one parameter, an emailObject : An object containing the following properties:
+Alternatively, you can send an email using the "sendMailAsync()" method, which returns a promise. It takes one parameter, an emailDetails : An object containing the following properties:
 
+```bash
 {
- email: The recipient's email address,
- subject: The subject of the email,
- content: The content of the email,
+email: "The recipient's email address",
+subject: "The subject of the email",
+content: "The content of the email"
 }
+```
+You can handel the promise with `.then()` and `.catch()` or with `async/await`.
+
 
 ```js
 
 const emailDetails = {
     email: "recipient@example.com",
     subject: "Your Email Subject",
-    content: `This is the content of the email.`
+    content: `This is the content of the email as Text/ HTML.`
 };
 
-mailer.sendMailInPromise(emailDetails)
+mailer.sendMailAsync(emailDetails)
     .then(response => {
         console.log('Mail send status:', response); //return a object {status:'success':message:'Email sent successfully.'}
     })
@@ -139,6 +147,9 @@ mailer.sendMailInPromise(emailDetails)
     });
 ```
 
+```HTML
+<h3 style="color=red;">Also HTML is allowed in emailDetails.content</h3>
+```
 
 ## Contact 
 
