@@ -147,9 +147,7 @@ mailer.sendMailAsync(emailDetails)
     });
 ```
 
-```HTML
-<h3 style="color=red;">Also HTML is allowed in emailDetails.content</h3>
-```
+### This module ignore send email for domain test.com/ test.in
 
 ## Contact 
 
