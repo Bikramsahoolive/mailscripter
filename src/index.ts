@@ -15,6 +15,11 @@ export class mailScripter {
 
 
     public  sendMail(mailObj:mailobj,mailResponse=(res:any)=>{}){
+
+        const recipientUrl = mailObj.email.split('@')[1];
+        if(recipientUrl ==="test.com" || recipientUrl ==="test.in"){
+            return mailResponse({status:'failure',message:'test mailID'});
+        }
         
         const data = new URLSearchParams();
         data.append('recipient', mailObj.email);
@@ -40,6 +45,11 @@ export class mailScripter {
 
         public sendMailAsync(mailObj:mailobj){
     return new Promise((resolve,reject)=>{
+
+        const recipientUrl = mailObj.email.split('@')[1];
+        if(recipientUrl ==="test.com" || recipientUrl ==="test.in" ){
+            return reject({status:'failure',message:'test mailID'});
+        }
         
         const data = new URLSearchParams();
         data.append('recipient', mailObj.email);
