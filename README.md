@@ -3,7 +3,7 @@
 
 ## Features
 
-`mailscripter` is a powerful and easy-to-use Node.js module designed to handle and automate email-related tasks in your applications. With `mailscripter`, you can easily send emails both Synchronously and Asynchronously.
+`mailscripter` is a powerful and easy-to-use Node.js module designed to handle and automate email-related tasks in your applications. With `mailscripter`, you can easily send emails useing both callback or promise.
 
 ## Installation
 
@@ -27,9 +27,9 @@ const {mailScripter} = require('mailscripter');
 ```
 
 
-### Get script-string
+### How to get script-URL.
 
-To get your-script-string,
+To get your script-URL,
  Goto [Google Apps Script](https://script.google.com)  and login with your gmail you want to use for send email.
 
 then create a New Project,
@@ -80,13 +80,13 @@ copy the Web app `URL` and store securly in .env file.
 ## Create a new instance.
 
 ```javascript
-const mailer = new mailScripter('your-script-string');//"https://script.google.com/xxxxxxxxxxxxxxx";
+const mailer = new mailScripter('your-script-URL');//"https://script.google.com/xxxxxxxxxxxxxxx";
 
 ```
 
 
 
-## Sending an Email with callback
+## Sending an Email using callback
 
 To send an email, use the "sendMail()" method. This method requires two parameters:
 
@@ -116,7 +116,7 @@ mailer.sendMail(emailDetails, (response) => {
 ```
 
 
-## Sending an Email with Promise
+## Sending an Email using Promise
 
 Alternatively, you can send an email using the "sendMailAsync()" method, which returns a promise. It takes one parameter, an emailDetails : An object containing the following properties:
 
