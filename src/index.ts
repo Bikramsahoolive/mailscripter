@@ -5,7 +5,7 @@ import {mailobj} from './model/mailobj';
 
 
 
-export class mailScripter {
+export class mailex {
     private script:string='';
 
 

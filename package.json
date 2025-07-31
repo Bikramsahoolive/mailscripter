@@ -1,7 +1,7 @@
 {
-  "name": "mailscripter",
-  "version": "1.3.1",
-  "description": "Mail Sender",
+  "name": "mailex",
+  "version": "1.0.1",
+  "description": "Easy Mail Sender",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -11,10 +11,14 @@
     "dist"
   ],
   "keywords": [
+    "express",
+    "node mail",
     "mailscripter",
+    "mailscript",
     "email",
     "mail",
-    "send"
+    "send",
+    "send mail"
   ],
   "author": "Bikram Sahoo",
   "license": "ISC",

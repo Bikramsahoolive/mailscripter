@@ -1,29 +1,29 @@
-# MailScripter
+# MAILEX
 
 
 ## Features
 
-`mailscripter` is a powerful and easy-to-use Node.js module designed to handle and automate email-related tasks in your applications. With `mailscripter`, you can easily send emails useing both callback or promise.
+`mailex` is a powerful and easy-to-use Node.js module designed to handle and automate email-related tasks in your applications. With `mailex`, you can easily send emails useing both callback or promise.
 
 ## Installation
 
 To install the package, run the following command:
 
 ```bash
-npm install mailscripter
+npm install mailex
 ```
 
 ## Usage
 
 ### Using ES6 import.
 ```js
-import {mailScripter} from 'mailscripter';
+import {mailex} from 'mailex';
 
 ```
 
 ### Using CommonJS require.
 ```javascript
-const {mailScripter} = require('mailscripter');
+const {mailex} = require('mailex');
 ```
 
 
@@ -80,7 +80,7 @@ copy the Web app `URL` and store securly in .env file.
 ## Create a new instance.
 
 ```javascript
-const mailer = new mailScripter('your-script-URL');//"https://script.google.com/xxxxxxxxxxxxxxx";
+const mailex = new mailex('your-script-URL');//"https://script.google.com/xxxxxxxxxxxxxxx";
 
 ```
 
@@ -110,7 +110,7 @@ callback function(Optional): A function that receives one parameter, which retur
   content: 'This is a test email using mailscript Text/ HTML'
 };
 
-mailer.sendMail(emailDetails, (response) => {
+mailex.sendMail(emailDetails, (response) => {
     console.log(response) //return a object {status:'success':message:'Email sent successfully.'}
 });
 ```
@@ -138,7 +138,7 @@ const emailDetails = {
     content: `This is the content of the email as Text/ HTML.`
 };
 
-mailer.sendMailAsync(emailDetails)
+mailex.sendMailAsync(emailDetails)
     .then(response => {
         console.log('Mail send status:', response); //return a object {status:'success':message:'Email sent successfully.'}
     })
