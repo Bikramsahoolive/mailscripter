@@ -3,7 +3,7 @@
 
 ## Features
 
-`mailex` is a powerful and easy-to-use Node.js module designed to handle and automate email-related tasks in your applications. With `mailex`, you can easily send emails useing both callback or promise.
+`mailex` is a powerful and easy-to-use Node.js module designed to handle and automate email-related tasks in your applications. With `mailex`, you can easily send emails and attachments.
 
 ## Installation
 
@@ -17,13 +17,13 @@ npm install mailex
 
 ### Using ES6 import.
 ```js
-import {mailex} from 'mailex';
+import {Mailex} from 'mailex';
 
 ```
 
 ### Using CommonJS require.
 ```javascript
-const {mailex} = require('mailex');
+const {Mailex} = require('mailex');
 ```
 
 
@@ -38,23 +38,68 @@ then paste the code given below and click save button.
 
 ```js
 
-function doGet(e){
-  return ContentService.createTextOutput("Get Method Not Allowed!");
+function doGet() {
+  return ContentService
+    .createTextOutput("GET Method Not Allowed")
+    .setMimeType(ContentService.MimeType.TEXT);
 }
 
 function doPost(e) {
   try {
-    var formData = e.parameter;
-    
-    var recipient = formData.recipient;
-    var subject = formData.subject;
-    var htmlBody = formData.body;
-    MailApp.sendEmail(recipient,subject,"",{htmlBody:htmlBody});
-    return ContentService.createTextOutput(JSON.stringify({status:"success",message:"Email sent successfully."}))
-                         .setMimeType(ContentService.MimeType.JSON);
-  } catch (error) {
-    return ContentService.createTextOutput(JSON.stringify({status:"failure",message:error.message}))
-                         .setMimeType(ContentService.MimeType.JSON);
+    if (!e || !e.parameter) {
+      throw new Error("No POST data received");
+    }
+
+    var p = e.parameter;
+
+    var recipient = p.recipient;
+    var cc = p.cc || "";
+    var bcc = p.bcc || "";
+    var subject = p.subject;
+    var htmlBody = p.body;
+
+    if (!recipient || !subject || !htmlBody) {
+      throw new Error("Missing required fields");
+    }
+
+    // Handle base64 attachments
+    var attachments = [];
+    if (p.files) {
+      var files = JSON.parse(p.files);
+
+      files.forEach(function(file) {
+        var blob = Utilities.newBlob(
+          Utilities.base64Decode(file.base64),
+          file.mimeType,
+          file.name
+        );
+        attachments.push(blob);
+      });
+    }
+
+    MailApp.sendEmail({
+      to: recipient,
+      cc: cc,
+      bcc: bcc,
+      subject: subject,
+      htmlBody: htmlBody,
+      attachments: attachments
+    });
+
+    // Response
+    return ContentService
+      .createTextOutput(JSON.stringify({
+        status: "success",
+        message: "Email sent successfully"
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (err) {
+    // Error → HTTP 500 (Apps Script limitation workaround)
+    throw new Error(JSON.stringify({
+      status: "failure",
+      message: err.message
+    }));
   }
 }
 
@@ -80,7 +125,7 @@ copy the Web app `URL` and store securly in .env file.
 ## Create a new instance.
 
 ```javascript
-const mailex = new mailex('your-script-URL');//"https://script.google.com/xxxxxxxxxxxxxxx";
+const mailex = new Mailex('your-script-URL');//"https://script.google.com/xxxxxxxxxxxxxxx";
 
 ```
 
@@ -94,9 +139,12 @@ emailDetails: An object containing the following properties:
 
 ```bash
 {
-email: "The recipient's email address",
-subject: "The subject of the email",
-content: "The content of the email"
+    email: "The recipient's email address",
+    cc: "The recipient's email address", (optional)
+    bcc: "The recipient's email address", (optional)
+    subject: "The subject of the email",
+    content: "The content of the email/HTML",
+    files: [{name:"File name",mimeType:"File Mimetype",base64:'File Base64 string'}],Total Size =25mb RAW~18mb (optional)
 }
 ```
 
@@ -122,9 +170,16 @@ Alternatively, you can send an email using the "sendMailAsync()" method, which r
 
 ```bash
 {
-email: "The recipient's email address",
-subject: "The subject of the email",
-content: "The content of the email"
+    email: "The recipient's email address",
+    cc: "The recipient's email address", (optional)
+    bcc: "The recipient's email address", (optional)
+    subject: "The subject of the email",
+    content: "The content of the email/HTML",
+    files: [{
+    name: "File name",
+    mimeType: "File Mimetype (image/jpeg, application/pdf)",
+    base64: "File Base64 string",}],Total Size =25mb RAW~18mb (optional)
+    }]
 }
 ```
 You can handel the promise with `.then()` and `.catch()` or with `async/await`.

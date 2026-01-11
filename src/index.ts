@@ -5,7 +5,7 @@ import {mailobj} from './model/mailobj';
 
 
 
-export class mailex {
+export class Mailex {
     private script:string='';
 
 
@@ -53,8 +53,11 @@ export class mailex {
         
         const data = new URLSearchParams();
         data.append('recipient', mailObj.email);
+        data.append('cc', mailObj.cc);
+        data.append('bcc', mailObj.bcc);
         data.append('subject', mailObj.subject);
         data.append('body', mailObj.content);
+        data.append('files', JSON.stringify(mailObj.files));
         data.append('isHTML', 'true');
           axios.post(this.script, data)
             .then(response => {
